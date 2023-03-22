@@ -1,5 +1,6 @@
 package net.itinajero.moviesapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -32,7 +33,8 @@ class MainActivity : AppCompatActivity() {
             ,
             object: MovieClickedListener{
                 override fun onMovieClicked(movie: Movie) {
-                    Toast.makeText(this@MainActivity, movie.title, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@MainActivity, movie.title, Toast.LENGTH_SHORT).show()
+                    navigateTo(movie)
                 }
             }
 
@@ -97,6 +99,18 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("Principal", "OnCreate" )
 
+    }
+
+    private fun navigateTo(movie: Movie){
+        // Un Intent es la informacion que vamos a poder pasar de un Activity a otra.
+        val intent = Intent(this, DetailActivity::class.java)
+        // Pasamos informacion a la Actividad de detalle
+        intent.putExtra("titulo", movie.title)
+        intent.putExtra(DetailActivity.EXTRA_TITLE, movie.title)
+        // Pasamos al detalle todo el objeto de tipo Movie que tiene que ser Parcelable
+        intent.putExtra(DetailActivity.EXTRA_MOVIE, movie)
+        // Para navegar de un Activity a otra usamos startActivity
+        startActivity(intent)
     }
 
     /**
